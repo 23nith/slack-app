@@ -9,7 +9,6 @@ const MessageArea = ({currentUser}) => {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-
         if(currentUser != ''){
             const responseBody = axios({
                 baseURL: "http://206.189.91.54/api/v1",

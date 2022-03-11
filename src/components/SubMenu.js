@@ -6,16 +6,9 @@ import DirectMessages from "./SubMenu/DirectMessages";
 
 const SubMenu = ({currentUser}) => {
     // const {user} = useContext(Auth)
-    useEffect(()=>{
-        console.log(currentUser)
-    }, [currentUser])
-
-
     const [channels, setChannels] = useState([]);
 
     useEffect(async() => {
-        console.log("currentUser: ", currentUser)
-
         if(currentUser != ''){
             const responseBody = await axios({
                 url: "channels", 
@@ -31,7 +24,6 @@ const SubMenu = ({currentUser}) => {
             })
             .then((response) => {
                 setChannels(response.data.data);
-                console.log("response data: ", response.data.data)
                 return response;
             })
 
@@ -51,7 +43,7 @@ const SubMenu = ({currentUser}) => {
             Channels
             <ul>
                 {channels && channels.map(channel => {
-                    return <Channels channel={channel} currentUser={currentUser}/> 
+                    return <Channels key={channel.id} channel={channel} currentUser={currentUser}/> 
                 })}
                 <li>Add Channel</li>
             </ul>

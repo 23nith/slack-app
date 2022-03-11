@@ -26,7 +26,6 @@ const DirectMessages = ({currentUser}) => {
                 }
             })
             .then(response => {
-                console.log("response: ", response)
                 const senders = response.data.data.map((item)=>{
                     return {id: item.receiver.id, email: item.receiver.email};
                 })
