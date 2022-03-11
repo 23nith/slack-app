@@ -15,42 +15,28 @@ const SubMenu = ({currentUser}) => {
 
     useEffect(async() => {
         console.log("currentUser: ", currentUser)
+
         if(currentUser != ''){
-            const responseBody = fetch("http://206.189.91.54/api/v1/channels", {
-                method: 'GET',
+            const responseBody = await axios({
+                url: "channels", 
+                baseURL: "http://206.189.91.54/api/v1/",
+                method: 'get',
                 headers: {
-                    "expiry": currentUser.expiry,
-                    "uid": currentUser.uid,
+                    expiry: currentUser.expiry,
+                    uid: currentUser.uid,
                     "access-token": currentUser["access-token"],
-                    "client": currentUser.client
+                    client: currentUser.client
                 }
+                
             })
-            .then(response => response.json())
-            .then(data => {
-                setChannels(data.data);
-                console.log("channels: ", data.data)
-                return data
+            .then((response) => {
+                setChannels(response.data.data);
+                console.log("response data: ", response.data.data)
+                return response;
             })
+
             return responseBody;
         }
-
-        // if(currentUser != ''){
-        //     let headers = {
-        //         expiry: currentUser.expiry,
-        //         uid: currentUser.uid,
-        //         "access-token": currentUser["access-token"],
-        //         client: currentUser.client
-        //     }
-
-        // const responseBody = await axios.get("http://206.189.91.54/api/v1/channels", headers)
-        // .then((response) => {
-        //     // setChannels(response.data);
-        //     console.log("response data: ", response.data)
-        //     return response;
-        // })
-
-        // return responseBody;
-        // }
 
     }, [currentUser])
 

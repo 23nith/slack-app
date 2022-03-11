@@ -12,43 +12,24 @@ const SendMessage = ({currentUser}) => {
         body: messageToSend
     }
 
-    let headers = {
+    let requestHeaders = {
+        headers: {
         "expiry": currentUser.expiry,
         "uid": currentUser.uid,
         "access-token": currentUser["access-token"],
         "client": currentUser.client
+        }
     }
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        console.log("toString: ", parseInt(messageMode["receiver_id"]))
-        const responseBody = fetch(`http://206.189.91.54/api/v1/messages`, {
-            method: 'POST',
-            body: JSON.stringify(bodyContents),
-            headers: {
-                "expiry": currentUser.expiry,
-                "uid": currentUser.uid,
-                "access-token": currentUser["access-token"],
-                "client": currentUser.client
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            // setMessages(data.data);
-            console.log("send request result: ", data)
-            console.log("bodyContents: ", bodyContents)
-            return data
-        })
 
-        // console.log("bodyContents: ", bodyContents)
-        // console.log("headers: ", headers)
-
-        // axios.post('http://206.189.91.54/api/v1/messages', bodyContents, headers)
-        // .then((response) => {
-        //     console.log("Success axios", response)
-        // }, (error)=> {
-        //     console.log("Rejected", error)
-        // })
+        axios.post('http://206.189.91.54/api/v1/messages', bodyContents, requestHeaders)
+        .then((response) => {
+            console.log("Success axios", response)
+        }, (error)=> {
+            console.log("Rejected", error)
+        })
 
         
     }

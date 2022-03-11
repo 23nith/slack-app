@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import { MessageContext } from "../../States/MessageContext";
 import { Auth } from "../../States/AuthProvider";
+import axios from "axios";
 
 const DirectMessages = ({currentUser}) => {
     const {dispatch} = useContext(MessageContext);
@@ -8,10 +9,15 @@ const DirectMessages = ({currentUser}) => {
     const [messengers, setMessengers] = useState('')
 
     useEffect(() => {
-        // console.log("user: ", user);
         if(currentUser !== ''){
-            const responseBody = fetch(`http://206.189.91.54/api/v1/messages/?receiver_id=${1735}&receiver_class=User`, {
-                method: 'GET',
+            const responseBody = axios({
+                url: "/messages",
+                baseURL: "http://206.189.91.54/api/v1",
+                method: 'get',
+                params: {
+                    receiver_id: 1735,
+                    receiver_class: 'User'
+                },
                 headers: {
                     "expiry": currentUser.expiry,
                     "uid": currentUser.uid,
@@ -19,9 +25,9 @@ const DirectMessages = ({currentUser}) => {
                     "client": currentUser.client
                 }
             })
-            .then(response => response.json())
-            .then(data => {
-                const senders = data.data.map((item)=>{
+            .then(response => {
+                console.log("response: ", response)
+                const senders = response.data.data.map((item)=>{
                     return {id: item.receiver.id, email: item.receiver.email};
                 })
                 const sendersUnique = senders.filter((value, index, self) =>
@@ -30,17 +36,12 @@ const DirectMessages = ({currentUser}) => {
                     ))
                 )
                 setMessengers(sendersUnique);
-                return data
+                return response
             })
             return responseBody
         }
 
     }, [currentUser])
-
-    useEffect(()=>{
-        
-        console.log("messengers", messengers)
-    }, [messengers])
 
     const handleClick = (e) => {
         dispatch({type: 'SET_MESSAGE_TYPE', user: {"receiver_id": e.target.id, "receiver_class": 'User'}})
