@@ -52,7 +52,7 @@ const SubMenu = ({currentUser}) => {
         // return responseBody;
         // }
 
-    }, [currentUser, channels])
+    }, [currentUser])
 
     return channels !== '' ? (
         <div className="border border-black h-screen grow-4">SubMenu<br/>
