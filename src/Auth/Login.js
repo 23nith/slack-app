@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import env from "react-dotenv";
@@ -8,6 +8,8 @@ export default function Login({
   toggleLogin,
   setToggleLogin,
   setToggleSignup,
+  setToggleMainPage,
+  setCurrentUser
 }) {
   const {
     register,
@@ -15,36 +17,58 @@ export default function Login({
     formState: { errors },
     resetField,
   } = useForm();
+
   const [{ user }, dispatch] = useAuthProvider();
+
   // set the current user to local storage
   useEffect(() => {
     localStorage.setItem("User", JSON.stringify(user));
   }, [user]);
+
   const getUserInfo = async (data) => {
     const userInfo = {
       email: data.email,
       password: data.password,
     };
+
+
     try {
       let res = await axios
-        .post(`${env.API_URL}/auth/sign_in`, userInfo)
-        .then(({ data }) => data);
-      const user = res.data;
+        // .post(`${env.API_URL}/auth/sign_in`, userInfo)
+        .post(`http://206.189.91.54/api/v1/auth/sign_in`, userInfo)
+        .then((data) => {
+          setToggleMainPage(true);
+          return data
+        });
+
+      const user = res.data.data;
+      
+      const responseHeader = res.headers
+      
+
       // set current user to state user
       dispatch({
         type: "SET_USER",
-        user: user,
+        user: Object.assign(user, responseHeader),
       });
       resetField("email");
       resetField("password");
+
+      setCurrentUser(Object.assign(user, responseHeader))
+
     } catch (error) {
       console.log(error);
     }
+
+
   };
+
   const handeleToggleLogin = (_) => {
     setToggleLogin(false);
     setToggleSignup(true);
   };
+
+
   return (
     <>
       <div className="w-3/4 h-1/6 flex justify-center items-center">
