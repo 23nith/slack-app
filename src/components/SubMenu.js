@@ -8,6 +8,7 @@ const SubMenu = ({currentUser}) => {
     // const {user} = useContext(Auth)
     const [channels, setChannels] = useState([]);
 
+    // GET LIST OF CHANNELS
     useEffect(async() => {
         if(currentUser != ''){
             const responseBody = await axios({
@@ -41,6 +42,7 @@ const SubMenu = ({currentUser}) => {
                 <li>More</li>
             </ul>
             Channels
+            {/* DISPLAY LIST OF CHANNELS */}
             <ul>
                 {channels && channels.map(channel => {
                     return <Channels key={channel.id} channel={channel} currentUser={currentUser}/> 
@@ -48,6 +50,7 @@ const SubMenu = ({currentUser}) => {
                 <li>Add Channel</li>
             </ul>
             Direct Messages
+            {/* DISPLAY LIST OF DIRECT MESSAGES */}
             <ul>
                 <DirectMessages currentUser={currentUser}/>
             </ul>

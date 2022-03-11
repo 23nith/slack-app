@@ -4,8 +4,8 @@ import { Auth } from "../../States/AuthProvider";
 import axios from "axios";
 
 const DirectMessages = ({currentUser}) => {
-    const {dispatch} = useContext(MessageContext);
     // const {user} = useContext(Auth);
+    const {dispatch} = useContext(MessageContext);
     const [messengers, setMessengers] = useState('')
 
     useEffect(() => {

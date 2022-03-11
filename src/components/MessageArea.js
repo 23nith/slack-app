@@ -8,6 +8,7 @@ const MessageArea = ({currentUser}) => {
     const {messageMode} = useContext(MessageContext);
     const [messages, setMessages] = useState([]);
 
+    // GET MESSAGES
     useEffect(() => {
         if(currentUser != ''){
             const responseBody = axios({
@@ -39,6 +40,7 @@ const MessageArea = ({currentUser}) => {
     return (
         <div className="flex flex-col border border-black h-screen grow-16">
             <MessageAreaHeader/>
+            {/* DISPLAY MESSAGES */}
             <div className="border border-black grow-16">
                 <ul>
                 {(messages !== undefined) || (messages.length != 0 ) ? (

@@ -30,9 +30,9 @@ const SendMessage = ({currentUser}) => {
         }, (error)=> {
             console.log("Rejected", error)
         })
-
-        
     }
+
+    
     return ( 
         <div className="border border-black h-14 w-full">
             SendMessage<br/>
