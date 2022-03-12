@@ -34,6 +34,9 @@ function App() {
       clamp: true,
     },
   });
+
+  console.log('Hello, Slack App!')
+
   return (
     // Auth set up
     <BrowserRouter>
