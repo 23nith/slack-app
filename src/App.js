@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import { useTransition } from "react-spring";
 import AuthProvider from "./States/AuthProvider";
 import { authInitialState } from "./States/Reducers/AuthReducer";
@@ -12,10 +12,17 @@ import SubMenu from "./components/SubMenu"
 import MessageArea from "./components/MessageArea"
 import ChannelDetails from "./components/ChannelDetails"
 import MessageContextPovider from "./States/MessageContext";
+import { useAuthProvider } from "./States/AuthProvider";
+import {MessageContext} from "./States/MessageContext";
+import axios from "axios";
+
 
 function App() {
   const [toggleLogin, setToggleLogin] = useState(true);
   const [isSignupOpen, setToggleSignup] = useState(false);
+  const [{ user }] = useAuthProvider();
+  const {messageMode} = useContext(MessageContext);
+  const [messages, setMessages] = useState([]);
 
   // Create transition for login
   const transtionLogin = useTransition(toggleLogin, {
@@ -41,6 +48,36 @@ function App() {
       clamp: true,
     },
   });
+
+  const myfunc = useCallback(async() => {
+    if(user != undefined){
+        console.log("messages: ", messages);
+        const responseBody = await axios({
+            baseURL: "http://206.189.91.54/api/v1",
+            url: '/messages',
+            method: 'get',
+            params: {
+                receiver_id: messageMode.receiver_id,
+                receiver_class: messageMode.receiver_class
+            },
+            headers: {
+                "expiry": user.expiry,
+                "uid": user.uid,
+                "access-token": user["access-token"],
+                "client": user.client
+            }
+        })
+        .then((response)=>{
+            setMessages(response.data.data);
+            return response
+        }, (error) => {
+            console.log(error);
+        })
+        return responseBody;
+    }
+}, [messageMode.receiver_id, user])
+
+const updateMessage = () => setInterval(myfunc, 5000);
 
   return (
     // Auth set up
@@ -69,8 +106,8 @@ function App() {
                   {/* logged in account component here */}
                   <div className="flex flex-row border border-black h-screen text-white">
                     <MenuBar/>
-                    <SubMenu />
-                    <MessageArea />
+                    <SubMenu updateMessage={updateMessage} />
+                    <MessageArea updateMessage={updateMessage} myfunc={myfunc} messages={messages}/>
                     <ChannelDetails/>
                   </div>
                 </PrivateRoute>

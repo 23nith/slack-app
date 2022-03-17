@@ -1,6 +1,6 @@
 const ChannelDetails = () => {
     return ( 
-        <div className="border border-black h-screen grow-4">
+        <div className="bg-primary h-screen grow-4">
             ChannelDetails
         </div>
     );

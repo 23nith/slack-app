@@ -1,6 +1,6 @@
 const MessageAreaHeader = () => {
     return ( 
-        <div className="border border-black h-14 w-full">
+        <div className="h-14 w-full bg-dark">
             MessageAreaHeader
         </div>
     );

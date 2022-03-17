@@ -38,8 +38,7 @@ const SendMessage = ({myfunc}) => {
 
     
     return ( 
-        <div className="border border-black h-17 w-full">
-            SendMessage<br/>
+        <div className="h-17 w-full bg-dark p-4">
             <form onSubmit={handleSubmit(sendMessage)}>
                 <textarea className="border border-black h-12 text-black"
                  style={{width: "90%"}} 

@@ -4,11 +4,19 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./Style/style.css";
 import { ChakraProvider } from "@chakra-ui/react";
+import AuthProvider from "./States/AuthProvider";
+import AuthReducer from "./States/Reducers/AuthReducer";
+import MessageContextPovider from "./States/MessageContext";
+import { authInitialState } from "./States/Reducers/AuthReducer";
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
+      <AuthProvider reducer={AuthReducer} initialState={authInitialState}>
+        <MessageContextPovider>
         <App />
+        </MessageContextPovider>
+      </AuthProvider>
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById("root")
