@@ -1,12 +1,11 @@
 import axios from "axios";
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import React, {useContext, useState, useEffect, useCallback} from "react";
 import { MessageContext } from "../States/MessageContext";
 import { useAuthProvider } from "../States/AuthProvider";
 import MessageAreaHeader from "./MessageArea/MessageAreaHeader";
 import SendMessage from "./MessageArea/SendMessage";
 import MessageDisplay from "./MessageArea/MessageDisplay";
 import env from "react-dotenv";
-
 
 const MessageArea = ({toggleSubMenu, toggleChannelDetails}) => {
     const [{ user }] = useAuthProvider();
@@ -40,24 +39,20 @@ const MessageArea = ({toggleSubMenu, toggleChannelDetails}) => {
             messageWindow.scrollTop = messageWindow.scrollHeight;
             return responseBody;
         }
-      );
-      return responseBody;
-    }
-  }, [messageMode.receiver_id, user]);
+    }, [messageMode.receiver_id, user])
 
-  const updateMessage = () => setInterval(myfunc, 5000);
+    const updateMessage = () => setInterval(myfunc, 5000);
 
-  // GET MESSAGES
-  useEffect(() => {
-    myfunc();
-    // clearInterval(updateMessage)
-    // updateMessage();
-  }, [myfunc]);
+    // GET MESSAGES
+    useEffect(() => {
+        myfunc()
+        // clearInterval(updateMessage)
+        // updateMessage();
+    }, [myfunc])
 
-  // useEffect(()=>{
-  //     updateMessage();
-  // }, [])
-
+    // useEffect(()=>{
+    //     updateMessage();
+    // }, [])
 
     return (
         <div className="flex flex-col h-screen grow-16">
@@ -78,4 +73,6 @@ const MessageArea = ({toggleSubMenu, toggleChannelDetails}) => {
         </div> 
     );
 
+}
+ 
 export default MessageArea;

@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { useTransition } from "react-spring";
-import AuthProvider, { useAuthProvider } from "./States/AuthProvider";
+import AuthProvider from "./States/AuthProvider";
 import { authInitialState } from "./States/Reducers/AuthReducer";
 import AuthReducer from "./States/Reducers/AuthReducer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -14,49 +14,15 @@ import ChannelDetails from "./components/ChannelDetails";
 import MessageContextPovider from "./States/MessageContext";
 import CreateChannel from "./components/SubMenu/CreateChannel";
 import { useCreateChannelProvider } from "./States/Reducers/CreateChannelProvider";
-import ChannelDatailsProvider from "./States/ChannelDetailsProvider";
-import axios from "axios";
-import env from "react-dotenv";
 import ComposeMessageProvider from "./States/Reducers/ComposeMessageProvider";
-import {
-  channelReducer,
-  channelDetailsInitialState,
-} from "./States/Reducers/channelDetailsReducer";
 
 function App() {
   const [toggleLogin, setToggleLogin] = useState(true);
   const [isSignupOpen, setToggleSignup] = useState(false);
-
-
-    const [{ user }] = useAuthProvider();
   const [showSubMenu, setShowSubMenu] = useState(true);
   const [showChannelDetails, setShowChannelDetails] = useState(true);
   const [{ isCreateMode, error }, dispatch] = useCreateChannelProvider();
-  useEffect(() => {
-    async function getUsers() {
-      try {
-        // get all users
-        const data = await axios
-          .get(`${env.API_URL}/users`, {
-            headers: {
-              "access-token": user["access-token"],
-              client: user.client,
-              expiry: user.expiry,
-              uid: user.uid,
-            },
-          })
-          .then(({ data }) => data.data);
-        // set state
-        dispatch({
-          type: "GET_ALL_USERS",
-          users: data,
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    getUsers();
-  }, []);
+
   // Create transition for login
   const transtionLogin = useTransition(toggleLogin, {
     from: { x: -100, y: 0, opacity: 0 },
@@ -94,7 +60,6 @@ function App() {
     // Auth set up
     <BrowserRouter>
       <div className="w-full h-full bg-gray-600">
-
         <AuthProvider reducer={AuthReducer} initialState={authInitialState}>
           <MessageContextPovider>
             <Routes>

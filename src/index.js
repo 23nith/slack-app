@@ -5,17 +5,14 @@ import reportWebVitals from "./reportWebVitals";
 import "./Style/style.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import CreateChannelProvider from "./States/Reducers/CreateChannelProvider";
-import { authInitialState, AuthReducer } from "./States/Reducers/AuthReducer";
-import AuthProvider from "./States/AuthProvider";
+
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider reducer={AuthReducer} initialState={authInitialState}>
-      <CreateChannelProvider>
-        <ChakraProvider>
-          <App />
-        </ChakraProvider>
-      </CreateChannelProvider>
-    </AuthProvider>
+    <CreateChannelProvider>
+      <ChakraProvider>
+        <App />
+      </ChakraProvider>
+    </CreateChannelProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

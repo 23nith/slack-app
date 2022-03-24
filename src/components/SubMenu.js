@@ -48,7 +48,7 @@ const SubMenu = ({ showSubMenu }) => {
     });
   };
 
- useEffect(() => {
+  useEffect(() => {
     if (channels !== []) {
       console.log("channels: ", channels);
     }
@@ -135,7 +135,6 @@ const SubMenu = ({ showSubMenu }) => {
       </div>
       {isCreateMode && <ComposeMessage />}
     </>
- 
   ) : (
     <div className="border border-black h-screen grow-4">SubMenu</div>
   );
