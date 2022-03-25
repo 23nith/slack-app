@@ -43,9 +43,9 @@ const DirectMessages = () => {
 
     }, [user])
 
-    useEffect(() => {
+    useEffect(async () => {
         if(allUsers !== '' && done == true){
-            allUsers.map((theUser)=>{
+            const allUsersDone = await allUsers.filter((theUser)=>{
                 const responseBody = axios({
                     url: "/messages",
                     baseURL: `${env.API_URL}`,
@@ -62,15 +62,17 @@ const DirectMessages = () => {
                     }
                 })
                 .then(response => {
+                    console.log('direct messages list loading...');
                     if(response.data.data.length !== 0 ){
                         setMessengers([...messengers, {id: theUser.id, email: theUser.email}])
+                        return response
                     }
-                    return response
                 })
-                
-                return theUser
+                return responseBody
             })
 
+            console.log('direct messages list done, here are allUsersDone: ', allUsersDone);
+            
         }
 
 
@@ -81,6 +83,7 @@ const DirectMessages = () => {
             setMessengerList([...messengerList, ...messengers])
         }
     }, [messengers])
+
 
     const handleClick = (e) => {
         dispatch({type: 'SET_MESSAGE_TYPE', user: {"receiver_id": e.target.id, "receiver_class": 'User', "name": e.target.innerText}})
