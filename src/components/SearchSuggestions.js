@@ -13,7 +13,7 @@ export default function SearchSuggestions({
     setFocus("email");
   };
   return (
-    <div className="absolute w-1/5 flex top-72 justify-center bg-gray-100 rounded-lg flex-col items-center ">
+    <div className="absolute w-8/12 flex top-72 justify-center bg-gray-100 rounded-lg flex-col items-center ">
       {suggestionArray.map(({ email, id }) => (
         <li
           onClick={(e) => settValue(e)}
