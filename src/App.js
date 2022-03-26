@@ -92,7 +92,7 @@ function App() {
   return (
     // Auth set up
     <BrowserRouter>
-      <div className="w-full h-full bg-gray-600">
+      <div className="w-full h-full relative bg-gray-600">
         <ChannelDatailsProvider
           reducer={channelReducer}
           initialState={channelDetailsInitialState}
